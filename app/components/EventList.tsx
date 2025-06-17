@@ -6,8 +6,8 @@ import EventCard from "./EventCard"
 const EventList = () => {
     const Events=useQuery(api.events.getEvents);
 
-    const upcomingEvents=Events?.filter(events=>events.eventDate > Date.now());
-    //const pastEvents=Events?.filter(events=>events.eventDate <= Date.now());
+    const upcomingEvents=Events?.filter(events=>events.eventDate > Date.now()).sort((a,b)=>a.eventDate-b.eventDate);
+    const pastEvents=Events?.filter(events=>events.eventDate <= Date.now()).sort((a,b)=>a.eventDate-b.eventDate);
     
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-12 py-8">
@@ -42,6 +42,21 @@ const EventList = () => {
             <p className="text-gray-600 mt-1">Check back later for new events</p>
           </div>
         )
+      }
+
+      {/* Past Events */}
+      {
+        (pastEvents?.length??0) >0 &&
+        <>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Past Events</h2>
+          <div className="grid grid-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {
+              pastEvents?.map((past)=>{
+                return(<EventCard key={past._id} eventId={past._id}/>)
+              })
+            }
+          </div>
+        </>
       }
     </div>
   )

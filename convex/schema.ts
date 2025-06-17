@@ -38,10 +38,10 @@ export default defineSchema({
         userId:v.string(),
         eventId:v.id("events"),
         status:v.union(
-            v.literal("valid"),
-            v.literal("used"),
-            v.literal("refunded"),
-            v.literal("cancelled"),
+            v.literal("waiting"),
+            v.literal("offered"),
+            v.literal("purchased"),
+            v.literal("expired"),
         ),
         offerExpires:v.optional(v.number()),
     }).index("by_user",["userId"])
